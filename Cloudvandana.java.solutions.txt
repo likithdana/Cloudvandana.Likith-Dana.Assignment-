@@ -1,0 +1,138 @@
+1. Create an array with the values (1, 2, 3, 4, 5, 6, 7) and shuffle it.
+
+import java.util.Arrays;
+import java.util.Random;
+
+public class ArrayShuffler {
+    public static void main(String[] args) {
+        int[] array = {1, 2, 3, 4, 5, 6, 7};
+        
+        shuffleArray(array);
+        
+        System.out.println("Shuffled array: " + Arrays.toString(array));
+    }
+    
+    public static void shuffleArray(int[] array) {
+        Random random = new Random();
+        
+        for (int i = array.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            
+            int temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    }
+}
+
+
+Output:Shuffled array: [7, 1, 2, 6, 5, 3, 4]
+
+
+2. Enter a Roman Number as input and convert it to an integer. (Example: IX = 9)
+
+import java.util.Scanner;
+
+public class RomanToIntegerConverter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a Roman numeral: ");
+        String romanNumeral = scanner.nextLine();
+        int decimalValue = convertToInteger(romanNumeral);
+        System.out.println("The decimal value is: " + decimalValue);
+    }
+
+    public static int convertToInteger(String romanNumeral) {
+        int result = 0;
+        int previousValue = 0;
+
+        // Starting from the rightmost character of the Roman numeral
+        for (int i = romanNumeral.length() - 1; i >= 0; i--) {
+            char currentChar = romanNumeral.charAt(i);
+            int currentValue = getNumericValue(currentChar);
+
+            // If the current value is less than the previous value, subtract it; otherwise, add it
+            if (currentValue < previousValue) {
+                result -= currentValue;
+            } else {
+                result += currentValue;
+            }
+
+            previousValue = currentValue;
+        }
+
+        return result;
+    }
+
+    private static int getNumericValue(char romanChar) {
+        switch (romanChar) {
+            case 'I':
+                return 1;
+            case 'V':
+                return 5;
+            case 'X':
+                return 10;
+            case 'L':
+                return 50;
+            case 'C':
+                return 100;
+            case 'D':
+                return 500;
+            case 'M':
+                return 1000;
+            default:
+                throw new IllegalArgumentException("Invalid Roman numeral character: " + romanChar);
+        }
+    }
+}
+
+Output:java -cp /tmp/hiIYXd5TMx RomanToIntegerConverter
+Enter a Roman numeral: VI
+The decimal value is: 6
+
+4. Check if the input is pangram or not. (A pangram is a sentence that contains all the 
+alphabets from A to Z)
+
+import java.util.Scanner;
+
+public class PangramChecker {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a sentence: ");
+        String sentence = scanner.nextLine();
+
+        boolean isPangram = checkIfPangram(sentence);
+        if (isPangram) {
+            System.out.println("The sentence is a pangram.");
+        } else {
+            System.out.println("The sentence is not a pangram.");
+        }
+    }
+
+    public static boolean checkIfPangram(String sentence) {
+        boolean[] alphabetPresent = new boolean[26];
+        int count = 0;
+
+      
+        for (int i = 0; i < sentence.length(); i++) {
+            char ch = sentence.charAt(i);
+
+            if ('a' <= ch && ch <= 'z') {
+                alphabetPresent[ch - 'a'] = true;
+            }
+        }
+
+        for (boolean isPresent : alphabetPresent) {
+            if (!isPresent) {
+                return false; 
+            }
+            count++;
+        }
+
+        return count == 26;
+    }
+}
+
+Output: java -cp /tmp/R60oV4Ri14 PangramChecker
+Enter a sentence: The job requires extra pluck and zeal from every young wage earner
+The sentence is a pangram.
